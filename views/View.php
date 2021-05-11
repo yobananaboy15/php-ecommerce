@@ -17,5 +17,9 @@ class View{
     public function viewFrontPage(){
         include_once ("views/include/frontPage.php");
     }
+    public function viewLoginPage()
+    {
+        include_once("views/include/login.php");
+    }
 
 }

@@ -9,6 +9,7 @@
   <title>Shop Homepage - Start Bootstrap Template</title>
   <!-- Core theme CSS (includes Bootstrap)-->
   <link href="styles/styles.css" rel="stylesheet" />
+  <link href="styles/styles2.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -29,6 +30,7 @@
           <li class="nav-item"><a class="nav-link" href="?page=about">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+          <li class="nav-item login"><a class="nav-link" href="?page=login">Login</a></li>
         </ul>
       </div>
     </div>

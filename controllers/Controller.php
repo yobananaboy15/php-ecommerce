@@ -21,6 +21,9 @@ class Controller{
             case "about":
                 $this->about();
                 break;
+            case "login":
+                $this->login();
+                break;
             default:
                 $this->frontPage();
         }
@@ -29,6 +32,12 @@ class Controller{
     private function about(){
         $this->getHeader("Om Oss");
         $this->view->viewAboutPage();
+        $this->getFooter();
+    }
+    private function login()
+    {
+        $this->getHeader("Logga in");
+        $this->view->ViewLoginPage();
         $this->getFooter();
     }
 
