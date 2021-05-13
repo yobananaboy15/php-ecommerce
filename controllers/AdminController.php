@@ -21,6 +21,15 @@ class AdminController
             case "products":
                 $this->products();
                 break;
+            case 'addproduct':
+                $this->addProduct();
+                break;
+            case 'editproduct':
+                $this->editProduct();
+                break;
+            case 'deleteproduct':
+                $this->deleteProduct();
+                break;
             case "orders":
                 $this->orders();
                 break;
@@ -31,14 +40,35 @@ class AdminController
 
     private function admin()
     {
-        $this->view->viewAdminPage();
+        $this->view->viewAdminHeader();
+        $this->view->viewFrontPage();
     }
 
     private function products()
     {
+        $this->view->viewAdminHeader();
+        $products = $this->model->fetchAllProducts();
+        $this->view->showProducts($products);
     }
 
     private function orders()
+    {
+    }
+
+    private function addProduct()
+    {
+    }
+
+    private function editProduct()
+    {
+        if (isset($_GET['id'])) {
+            $this->view->viewAdminHeader();
+            $product = $this->model->fetchProduct($_GET['id']);
+            $this->view->showEditProduct($product);
+        }
+    }
+
+    private function deleteProduct()
     {
     }
 }
