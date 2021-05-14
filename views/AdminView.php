@@ -42,6 +42,7 @@ class AdminView
                     <th scope="col">Category</th>
                     <th scope="col">Price</th>
                     <th scope="col">Image</th>
+                    <th scope="col"><a href="?page=addproduct" class="btn btn-success">Add</a></th>                    
                 </tr>
             </thead>
             <tbody> 
@@ -81,6 +82,37 @@ class AdminView
             </div>
             <input type="hidden" name="id" value="$product[id]">
             <button type="submit" class="btn btn-primary">Submit changes</button>
+        </form>
+        EOT;
+        echo $html;
+    }
+
+
+    public function addProduct()
+    {
+        $html = <<<EOT
+        <form action="?page=addproduct" method="POST">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <input type="text" class="form-control" name="description">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Category</label>
+                <input type="text" class="form-control" name="category">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Price</label>
+                <input type="text" class="form-control" name="price">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Image</label>
+                <input type="text" class="form-control" name="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Add product</button>
         </form>
         EOT;
         echo $html;

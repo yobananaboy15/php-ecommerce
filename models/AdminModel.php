@@ -22,6 +22,11 @@ class AdminModel
         return $product[0];
     }
 
+    public function addProduct($parameters)
+    {
+        $this->db->update("INSERT INTO products (title, description, category, price, image) VALUES (?, ?, ?, ?, ?)", array($parameters['title'], $parameters['description'], $parameters['category'], $parameters['price'], $parameters['image']));
+    }
+
     public function editProduct($parameters)
     {
         $this->db->update("UPDATE products SET title = ?, description = ?, category = ?, price = ?, image = ? WHERE id = ?", array($parameters['title'], $parameters['description'], $parameters['category'], $parameters['price'], $parameters['image'], $parameters['id']));
