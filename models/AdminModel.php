@@ -26,4 +26,9 @@ class AdminModel
     {
         $this->db->update("UPDATE products SET title = ?, description = ?, category = ?, price = ?, image = ? WHERE id = ?", array($parameters['title'], $parameters['description'], $parameters['category'], $parameters['price'], $parameters['image'], $parameters['id']));
     }
+
+    public function deleteProduct($id)
+    {
+        $this->db->delete("DELETE from products WHERE id = ?", array($id));
+    }
 }
