@@ -21,32 +21,32 @@ class View
   public function viewFrontPage($products)
   {
     include_once("views/include/frontPage.php");
-    echo "<pre>";
-    //print_r($products);
 
-    $card = "";
+
+    $card = " <div class='row'>";
     foreach ($products as $product) {
       $card .= "
-    
-    <div class='col-lg-4 col-md-6 mb-4'>
+      <div class='col-lg-4 col-md-6 mb-4'>
       <div class='card h-100'>
-        <a href='#!'><img class='card-img-top' src='https://via.placeholder.com/700x400' alt='...' /></a>
+        <a href='#!'><img class='card-img-top p-3' src='$product[image]' alt='...' / style='height : 300px'></a>
         <div class='card-body'>
-            <h4 class='card-title'><a href='#!'>$product[title]</a></h4>
-            <h5>$24.99</h5>
-            <p class='card-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+          <h4 class='card-title'><a href='#!'>$product[title]</a></h4>
+          <h5>$product[price]</h5>
+          <p class='card-text'>$product[description]</p>
         </div>
-        <div class='card-footer'><small class='text-muted'>★ ★ ★ ★ ☆</small></div>
-        </div>
-    </div>
-    </div> ";
+        <div class='card-footer'><button class='btn btn-primary'>BUY!!</button></div>
+      </div>
+    </div>";
     }
+    $card .= "
+      </div>
+      </div>
+      </div>
+      </div>";
     echo $card;
-    echo "
-          </div>
-          </div>
-          </div>";
   }
+
+
   public function viewLoginPage()
   {
     include_once("views/include/login.php");
