@@ -69,6 +69,7 @@ class AdminController
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->model->editProduct($_POST);
+            header("Location: ?page=products");
         }
     }
 
