@@ -51,10 +51,6 @@ class AdminController
         $this->view->showProducts($products);
     }
 
-    private function orders()
-    {
-    }
-
     private function addProduct()
     {
     }
@@ -74,6 +70,13 @@ class AdminController
     }
 
     private function deleteProduct()
+    {
+        $this->model->deleteProduct($_GET['id']);
+        header("Location: ?page=products");
+    }
+
+
+    private function orders()
     {
     }
 }
