@@ -12,23 +12,23 @@ require_once('models/AdminModel.php');
  * OBS!! Ändra databas
  ********************/
 
-session_start();
+//session_start();
 
 //Om användaren är inloggad som admin kör nedanstående.
 
-$_SESSION["isAdmin"] = true;
+//$_SESSION["isAdmin"] = true;
 
 if (isset($_SESSION['isAdmin'])) {
-    $database   = new Database("fakestore", "root", "root");
-    $adminModel = new AdminModel($database);
-    $view = new adminView();
-    $contoller = new AdminController($adminModel, $view);
+  $database   = new Database("fakestore", "root", "root");
+  $adminModel = new AdminModel($database);
+  $view = new adminView();
+  $contoller = new AdminController($adminModel, $view);
 } else {
-    $database   = new Database("fakestore", "root", "root");
+  $database   = new Database("fakestore", "root", "root");
 
-    $model      = new Model($database);
-    $view       = new View();
-    $controller = new Controller($model, $view);
+  $model      = new Model($database);
+  $view       = new View();
+  $controller = new Controller($model, $view);
 
-    $controller->main(); //Kör den här i konstruktorn?
+  $controller->main(); //Kör den här i konstruktorn?
 }
