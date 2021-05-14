@@ -66,6 +66,10 @@ class AdminController
             $product = $this->model->fetchProduct($_GET['id']);
             $this->view->showEditProduct($product);
         }
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->model->editProduct($_POST);
+        }
     }
 
     private function deleteProduct()

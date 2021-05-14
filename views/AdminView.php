@@ -23,8 +23,8 @@ class AdminView
             <td>$product[price]</td>
             <td>$product[image]</td>
             <td>
-                <button type='button' class='btn btn-primary'>Edit</button>
-                <button type='button' class='btn btn-danger'>Delete</button>
+                <a href="?page=editproduct&id=$product[id]" class='btn btn-primary'>Edit</a>
+                <a href="?page=deleteproduct&id=$product[id]" class='btn btn-danger'>Delete</a>
             <td>
         </tr>
         EOT;
@@ -58,31 +58,33 @@ class AdminView
     public function showEditProduct($product)
     {
         $html = <<<EOT
-        <form>
+        <form action="?page=editproduct" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[title]">
+                <input type="text" class="form-control" name="title" value="$product[title]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[description]">
+                <label for="exampleInputEmail1">Description</label>
+                <input type="text" class="form-control" name="description" value="$product[description]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[category]">
+                <label for="exampleInputEmail1">Category</label>
+                <input type="text" class="form-control" name="category" value="$product[category]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[price]">
+                <label for="exampleInputEmail1">Price</label>
+                <input type="text" class="form-control" name="price" value="$product[price]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[image]">
+                <label for="exampleInputEmail1">Image</label>
+                <input type="text" class="form-control" name="image" value="$product[image]">
             </div>
+            <input type="hidden" name="id" value="$product[id]">
             <button type="submit" class="btn btn-primary">Submit changes</button>
         </form>
         EOT;
         echo $html;
     }
     //Fler klasser för att se orders.
+
 }
