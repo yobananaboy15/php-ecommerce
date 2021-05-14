@@ -28,6 +28,9 @@ class Controller
       case "login":
         $this->login();
         break;
+      case "register":
+        $this->register();
+        break;
       default:
         $this->frontPage();
     }
@@ -43,6 +46,24 @@ class Controller
   {
     $this->getHeader("Logga in");
     $this->view->ViewLoginPage();
+    $this->getFooter();
+  }
+
+  private function register()
+  {
+    $this->getHeader("Register");
+    $this->view->ViewRegisterPage();
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $register = array(
+        "name" => htmlspecialchars($_POST['name']),
+        "adress" => htmlspecialchars($_POST['adress']),
+        "phone" => htmlspecialchars($_POST['phone']),
+        "email" => htmlspecialchars($_POST['email']),
+        "password" => htmlspecialchars($_POST['password'])
+      );
+      $this->model->registerUser($register);
+    }
     $this->getFooter();
   }
 

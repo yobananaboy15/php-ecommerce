@@ -19,12 +19,12 @@ require_once('models/AdminModel.php');
 //$_SESSION["isAdmin"] = true;
 
 if (isset($_SESSION['isAdmin'])) {
-  $database   = new Database("fakestore", "root", "root");
+  $database   = new Database("fakestore", "root", "admin");
   $adminModel = new AdminModel($database);
   $view = new adminView();
   $contoller = new AdminController($adminModel, $view);
 } else {
-  $database   = new Database("fakestore", "root", "root");
+  $database   = new Database("fakestore", "root", "admin");
 
   $model      = new Model($database);
   $view       = new View();
