@@ -86,5 +86,16 @@ class AdminController
 
     private function orders()
     {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $this->view->viewAdminHeader();
+            $activeOrders = $this->model->fetchActiveOrders();
+            $this->view->showActiveOrders($activeOrders);
+            $sentOrders = $this->model->fetchSentOrders();
+            $this->view->showSentOrders($sentOrders);
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->model->changeOrderStatus($_POST['id']);
+            header("Location: ?page=orders");
+        }
     }
 }

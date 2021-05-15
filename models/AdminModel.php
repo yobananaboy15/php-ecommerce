@@ -36,4 +36,21 @@ class AdminModel
     {
         $this->db->delete("DELETE from products WHERE id = ?", array($id));
     }
+
+    public function fetchActiveOrders()
+    {
+        $orders = $this->db->select("SELECT o.id, o.total, o.created_at, c.name FROM orders AS o JOIN customers as c ON o.customers_id = c.id WHERE o.sent = false");
+        return $orders;
+    }
+
+    public function fetchSentOrders()
+    {
+        $orders = $this->db->select("SELECT o.id, o.total, o.created_at, c.name FROM orders AS o JOIN customers as c ON o.customers_id = c.id WHERE o.sent = true");
+        return $orders;
+    }
+
+    public function changeOrderStatus($id)
+    {
+        $this->db->update("UPDATE orders SET sent = true WHERE id = ?", array($id));
+    }
 }

@@ -87,7 +87,6 @@ class AdminView
         echo $html;
     }
 
-
     public function addProduct()
     {
         $html = <<<EOT
@@ -117,6 +116,73 @@ class AdminView
         EOT;
         echo $html;
     }
-    //Fler klasser för att se orders.
 
+    public function showActiveOrders($orders)
+    {
+        $html = <<<EOT
+        <h1>Active Orders</h1>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total cost</th>
+                    <th scope="col">Action</th>                    
+                </tr>
+            </thead>
+            <tbody> 
+        EOT;
+        foreach ($orders as $order) {
+            $html .= <<<EOT
+            <tr>
+                <td>$order[id]</td>
+                <td>$order[created_at]</td>
+                <td>$order[name]</td>
+                <td>$order[total]</td>
+                <td>
+                    <form action='?page=orders' method='POST'>
+                        <input type='hidden' name="id" value="$order[id]" />
+                        <button type="submit" class="btn btn-primary">Send order</button>
+                    </form>
+                </td>
+            </tr>
+            EOT;
+        }
+
+        $html .= "</tbody></table>";
+        echo $html;
+    }
+
+    public function showSentOrders($orders)
+    {
+        $html = <<<EOT
+        <h1>Sent orders</h1>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total cost</th>
+                    <th scope="col">Status</th>                    
+                </tr>
+            </thead>
+            <tbody> 
+        EOT;
+        foreach ($orders as $order) {
+            $html .= <<<EOT
+            <tr>
+                <td>$order[id]</td>
+                <td>$order[created_at]</td>
+                <td>$order[name]</td>
+                <td>$order[total]</td>
+                <td>Sent</td>
+            </tr>
+            EOT;
+        }
+
+        $html .= "</tbody></table>";
+        echo $html;
+    }
 }
