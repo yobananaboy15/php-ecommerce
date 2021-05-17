@@ -12,11 +12,12 @@ require_once('models/AdminModel.php');
  * OBS!! Ändra databas
  ********************/
 
-//session_start();
+session_start();
+$_SESSION['cart'] = array();
 
 //Om användaren är inloggad som admin kör nedanstående.
 
-//$_SESSION["isAdmin"] = true;
+// $_SESSION["isAdmin"] = true;
 
 if (isset($_SESSION['isAdmin'])) {
   $database   = new Database("fakestore", "root", "root");
