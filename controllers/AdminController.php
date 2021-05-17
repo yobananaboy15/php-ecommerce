@@ -51,24 +51,51 @@ class AdminController
         $this->view->showProducts($products);
     }
 
-    private function orders()
-    {
-    }
-
     private function addProduct()
     {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $this->view->viewAdminHeader();
+            $this->view->addProduct();
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->model->addProduct($_POST);
+            header("Location: ?page=products");
+        }
     }
 
     private function editProduct()
     {
-        if (isset($_GET['id'])) {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $this->view->viewAdminHeader();
             $product = $this->model->fetchProduct($_GET['id']);
             $this->view->showEditProduct($product);
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->model->editProduct($_POST);
+            header("Location: ?page=products");
         }
     }
 
     private function deleteProduct()
     {
+        $this->model->deleteProduct($_GET['id']);
+        header("Location: ?page=products");
+    }
+
+
+    private function orders()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $this->view->viewAdminHeader();
+            $activeOrders = $this->model->fetchActiveOrders();
+            $this->view->showActiveOrders($activeOrders);
+            $sentOrders = $this->model->fetchSentOrders();
+            $this->view->showSentOrders($sentOrders);
+        }
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->model->changeOrderStatus($_POST['id']);
+            header("Location: ?page=orders");
+        }
     }
 }

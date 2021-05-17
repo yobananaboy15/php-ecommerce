@@ -23,8 +23,8 @@ class AdminView
             <td>$product[price]</td>
             <td>$product[image]</td>
             <td>
-                <button type='button' class='btn btn-primary'>Edit</button>
-                <button type='button' class='btn btn-danger'>Delete</button>
+                <a href="?page=editproduct&id=$product[id]" class='btn btn-primary'>Edit</a>
+                <a href="?page=deleteproduct&id=$product[id]" class='btn btn-danger'>Delete</a>
             <td>
         </tr>
         EOT;
@@ -42,6 +42,7 @@ class AdminView
                     <th scope="col">Category</th>
                     <th scope="col">Price</th>
                     <th scope="col">Image</th>
+                    <th scope="col"><a href="?page=addproduct" class="btn btn-success">Add</a></th>                    
                 </tr>
             </thead>
             <tbody> 
@@ -58,31 +59,130 @@ class AdminView
     public function showEditProduct($product)
     {
         $html = <<<EOT
-        <form>
+        <form action="?page=editproduct" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[title]">
+                <input type="text" class="form-control" name="title" value="$product[title]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[description]">
+                <label for="exampleInputEmail1">Description</label>
+                <input type="text" class="form-control" name="description" value="$product[description]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[category]">
+                <label for="exampleInputEmail1">Category</label>
+                <input type="text" class="form-control" name="category" value="$product[category]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[price]">
+                <label for="exampleInputEmail1">Price</label>
+                <input type="text" class="form-control" name="price" value="$product[price]">
             </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" id="title" value="$product[image]">
+                <label for="exampleInputEmail1">Image</label>
+                <input type="text" class="form-control" name="image" value="$product[image]">
             </div>
+            <input type="hidden" name="id" value="$product[id]">
             <button type="submit" class="btn btn-primary">Submit changes</button>
         </form>
         EOT;
         echo $html;
     }
-    //Fler klasser för att se orders.
+
+    public function addProduct()
+    {
+        $html = <<<EOT
+        <form action="?page=addproduct" method="POST">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input type="text" class="form-control" name="title">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <input type="text" class="form-control" name="description">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Category</label>
+                <input type="text" class="form-control" name="category">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Price</label>
+                <input type="text" class="form-control" name="price">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Image</label>
+                <input type="text" class="form-control" name="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Add product</button>
+        </form>
+        EOT;
+        echo $html;
+    }
+
+    public function showActiveOrders($orders)
+    {
+        $html = <<<EOT
+        <h1>Active Orders</h1>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total cost</th>
+                    <th scope="col">Action</th>                    
+                </tr>
+            </thead>
+            <tbody> 
+        EOT;
+        foreach ($orders as $order) {
+            $html .= <<<EOT
+            <tr>
+                <td>$order[id]</td>
+                <td>$order[created_at]</td>
+                <td>$order[name]</td>
+                <td>$order[total]</td>
+                <td>
+                    <form action='?page=orders' method='POST'>
+                        <input type='hidden' name="id" value="$order[id]" />
+                        <button type="submit" class="btn btn-primary">Send order</button>
+                    </form>
+                </td>
+            </tr>
+            EOT;
+        }
+
+        $html .= "</tbody></table>";
+        echo $html;
+    }
+
+    public function showSentOrders($orders)
+    {
+        $html = <<<EOT
+        <h1>Sent orders</h1>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total cost</th>
+                    <th scope="col">Status</th>                    
+                </tr>
+            </thead>
+            <tbody> 
+        EOT;
+        foreach ($orders as $order) {
+            $html .= <<<EOT
+            <tr>
+                <td>$order[id]</td>
+                <td>$order[created_at]</td>
+                <td>$order[name]</td>
+                <td>$order[total]</td>
+                <td>Sent</td>
+            </tr>
+            EOT;
+        }
+
+        $html .= "</tbody></table>";
+        echo $html;
+    }
 }
