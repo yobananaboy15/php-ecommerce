@@ -44,6 +44,7 @@ class View
       </div>
       </div>";
     echo $card;
+    var_dump($_SESSION);
   }
 
 
@@ -54,8 +55,8 @@ class View
 
   public function viewRegisterPage()
   {
-    include_once("views/include/register.php");    
-        // Hämta data från post-arrayen
-        
+    include_once("views/include/register.php");
+    // Hämta data från post-arrayen
+
   }
 }

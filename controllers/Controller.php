@@ -59,7 +59,7 @@ class Controller
       // echo "</pre>";
 
       if (count($user)) {
-        $_SESSION['userid'] = $user['id'];
+        $_SESSION['userid'] = $user[0]['id'];
         header('Location: ?page');
       } else {
         $error = "Wrong username or password";
