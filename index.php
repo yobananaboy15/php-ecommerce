@@ -20,7 +20,9 @@ if (isset(($_SESSION['isAdmin'])) && $_SESSION['isAdmin']) {
   $view = new adminView();
   $contoller = new AdminController($adminModel, $view);
 } else {
-  $_SESSION['cart'] = array();
+  if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = array();
+  }
   $database   = new Database("fakestore", "root", "root");
 
   $model      = new Model($database);
