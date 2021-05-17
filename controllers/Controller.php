@@ -117,6 +117,21 @@ class Controller
 
   private function frontPage()
   {
+    //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
+    if (isset($_GET['id'])) {
+      //Knapptryck -> skickar en GET-parameter som heter id med ett värde
+      //Sen körs det här blocket
+      //Nu försöker vi sätta värde på indexet "test" till någonting i session-variabeln car
+      // $_SESSION['cart']['test'] = array_key_exists('test', $_SESSION['cart']) ? $_SESSION['cart']['test'] + 1 : 1;
+      // $_SESSION['cart'][$_GET['id']] ? 1 : $_SESSION['cart'][$_GET['id']] + 1;
+      if (array_key_exists($_GET['id'], $_SESSION['cart'])) {
+
+        $_SESSION['cart'][$_GET['id']] = $_SESSION['cart'][$_GET['id']] + 1;
+      } else {
+        $_SESSION['cart'][$_GET['id']] = 1;
+      }
+    }
+
     $this->getHeader("Välkommen");
 
     $products = $this->model->fetchAllProducts();

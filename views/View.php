@@ -34,7 +34,9 @@ class View
           <h5>$product[price]</h5>
           <p class='card-text'>$product[description]</p>
         </div>
-        <div class='card-footer'><button class='btn btn-primary'>BUY!!</button></div>
+        <div class='card-footer'>
+          <a class='btn btn-primary' href='?page&id=$product[id]'>BUY!!</a>
+        </div>
       </div>
     </div>";
     }
