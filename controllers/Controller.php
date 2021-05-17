@@ -53,18 +53,22 @@ class Controller
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-      $user = $this->model->getUser($_POST['username'], $_POST['password']);
+      $user = $this->model->getUser($_POST['username'], $_POST['password'])[0];
       // echo "<pre>";
       // var_dump($user);
       // echo "</pre>";
 
       if (count($user)) {
-        $_SESSION['userid'] = $user[0]['id'];
+        $_SESSION['isAdmin'] = $user['isadmin'];
+        $_SESSION['userid'] = $user['id'];
         header('Location: ?page');
       } else {
         $error = "Wrong username or password";
         header("Location: ?page=login&error=$error");
       }
+
+      //När man trycker på KÖP-knapparna ska id:et på den varan läggas till i session.
+      //När man trycker på kundkorgen -> Ny sida där man kan se allting som finns i varukorgen (session) och trycka på beställ -> insert order i databasen eller gå tillbaka.
 
       //Inled med att sätta $_SESSION["cart"] = [1 => 1,2,3 => 4] när man kommer in på sidan.
 

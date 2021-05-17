@@ -13,18 +13,14 @@ require_once('models/AdminModel.php');
  ********************/
 
 session_start();
-$_SESSION['cart'] = array();
 
-//Om användaren är inloggad som admin kör nedanstående.
-
-// $_SESSION["isAdmin"] = true;
-
-if (isset($_SESSION['isAdmin'])) {
+if (isset(($_SESSION['isAdmin'])) && $_SESSION['isAdmin']) {
   $database   = new Database("fakestore", "root", "root");
   $adminModel = new AdminModel($database);
   $view = new adminView();
   $contoller = new AdminController($adminModel, $view);
 } else {
+  $_SESSION['cart'] = array();
   $database   = new Database("fakestore", "root", "root");
 
   $model      = new Model($database);
