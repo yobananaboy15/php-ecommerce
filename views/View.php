@@ -3,7 +3,7 @@
 class View
 {
 
-  public function viewHeader($title)
+  public function viewHeader()
   {
     include_once("views/include/header.php");
   }
@@ -26,7 +26,7 @@ class View
     $card = " <div class='row'>";
     foreach ($products as $product) {
       $card .= "
-      <div class='col-lg-4 col-md-6 mb-4'>
+      <div class='col-lg-4 col-md-6 mb-4'>s
       <div class='card h-100'>
         <a href='#!'><img class='p-3 img-fluid' src='$product[image]' alt='...' / style='height : 300px'></a>
         <div class='card-body'>
@@ -47,6 +47,42 @@ class View
       </div>";
     echo $card;
     var_dump($_SESSION);
+  }
+
+  public function viewCheckoutPage($products, $totalCost)
+  {
+    $html = <<<EOT
+    <h1>Cart</h1>
+    <table class='table'>
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody> 
+    EOT;
+
+    foreach ($products as $product) {
+      $html .= <<<EOT
+      <tr>
+          <td>$product[title]</td>
+          <td>$product[quantity]</td>
+          <td>$product[price]</td>
+      </tr>
+      EOT;
+    }
+    $html .= "<tr><th>Total</th><th></th><th>$totalCost</th></tr>";
+    $html .= "</tbody></table>";
+    $html .= "<a class='btn btn-primary' href='?page'>Go back</a>";
+    $html .= "<form action='?page=checkout' method='POST'><button type='submit'>Send order</button></form>";
+
+    //En länk för att skicka beställning. POST-request
+
+    //En länk för att gå tillbaka till home
+    //Totalsumman 
+    echo $html;
   }
 
 

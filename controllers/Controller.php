@@ -31,6 +31,12 @@ class Controller
       case "register":
         $this->register();
         break;
+      case "checkout":
+        $this->checkout();
+        break;
+      case "orderconfirm":
+        $this->orderConfirm();
+        break;
       default:
         $this->frontPage();
     }
@@ -66,24 +72,6 @@ class Controller
         $error = "Wrong username or password";
         header("Location: ?page=login&error=$error");
       }
-
-      //När man trycker på KÖP-knapparna ska id:et på den varan läggas till i session.
-      //När man trycker på kundkorgen -> Ny sida där man kan se allting som finns i varukorgen (session) och trycka på beställ -> insert order i databasen eller gå tillbaka.
-
-      //Inled med att sätta $_SESSION["cart"] = [1 => 1,2,3 => 4] när man kommer in på sidan.
-
-      //Kolla om det finns ett sådant användarnamn -> Om vi får tillbaka en rad innebär det att det finns en användare med det namnet.
-      //Då Kollar vi om lösenorder i raden är samma som $_POST['password'];
-
-      //Om vi inte får tillbaka en rad finns inte användaren.
-
-      //Kolla om lösenordet som är kopplat till användaren överensstämmer med det som skickats in.
-      //Skicka felmeddelande om inloggningsuppfiter inte stämmer.
-
-      //Om det gör det -> Kolla om användaren är admin.
-      //Om användaren är admin -> sätt $_SESSION["isAdmin"] = true -> Redirect till förstasidan.
-
-      //Om användaren är user -> $_SESSION['userid'] = userid
     }
   }
 
@@ -105,9 +93,68 @@ class Controller
     $this->getFooter();
   }
 
-  private function getHeader($title)
+  private function checkout()
   {
-    $this->view->viewHeader($title);
+    $idStr = implode(",", array_keys($_SESSION['cart']));
+
+    $products = $this->model->fetchCustomersProducts($idStr);
+    //För varje produkt så multiplicerar vi värde av elementet med priset för motsvarande index.
+
+    $totalCost = 0;
+    $newArray = array();
+
+    foreach ($products as $value) {
+      $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
+      $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+      array_push($newArray, $singleProductArray);
+    }
+
+    //Räkna ut totalsumma
+
+    $this->view->viewHeader();
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+      $this->view->viewCheckoutPage($newArray, $totalCost);
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+      $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
+      //Fixa sträng med produktID.
+      $queryString = '';
+
+      foreach (array_keys($_SESSION['cart']) as $value) {
+        $queryString .= "($value, $insertedOrderId),";
+      }
+
+      $queryString = substr($queryString, 0, -1);
+
+      $this->model->productsToOrder($queryString);
+
+
+      // $this->model->
+      //Vi vill skapa en order i orders:
+      //id, totalt pris (finns i $totalCost), customer id(finns i session).
+
+      //Skapa rader i orders_products
+      //En rad för varje produkt
+
+      // $this->view->confirmOrder();
+    }
+
+
+    $this->view->viewFooter();
+
+    //Skicka en array med det som ska skrivas ut
+  }
+
+  private function orderConfirm()
+  {
+    //Ta get-parametern
+  }
+
+  private function getHeader()
+  {
+    $this->view->viewHeader();
   }
 
   private function getFooter()
@@ -119,9 +166,7 @@ class Controller
   {
     //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
     if (isset($_GET['id'])) {
-      //Knapptryck -> skickar en GET-parameter som heter id med ett värde
-      //Sen körs det här blocket
-      //Nu försöker vi sätta värde på indexet "test" till någonting i session-variabeln car
+
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
     }
 

@@ -53,4 +53,11 @@ class AdminModel
     {
         $this->db->update("UPDATE orders SET sent = true WHERE id = ?", array($id));
     }
+
+    public function fetchOrderDetails($orderId)
+    {
+        //Joina orders, orders_products och products för att få fram namnen på alla produkter i en viss order.
+        $orders = $this->db->select("SELECT * from orders as o JOIN orders_products as op on o.id = op.products_id JOIN products as p on p.id = op.products_id WHERE o.id = $orderId");
+        return $orders;
+    }
 }

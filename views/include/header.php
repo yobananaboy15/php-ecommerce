@@ -27,10 +27,8 @@
               <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item"><a class="nav-link" href="?page=about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#!">Services</a></li>
-          <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
           <li class="nav-item login"><a class="nav-link" href="?page=login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="?page=checkout">Checkout</a></li>
         </ul>
       </div>
     </div>

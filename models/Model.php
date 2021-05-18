@@ -21,6 +21,13 @@ class Model
     return $products;
   }
 
+  public function fetchCustomersProducts($idStr)
+  {
+
+    $products = $this->db->select("SELECT * from products WHERE id in ($idStr)");
+    return $products;
+  }
+
   public function registerUser($register)
   {
 
@@ -41,5 +48,21 @@ class Model
   {
     $user = $this->db->select("SELECT * from customers WHERE name = ? and password = ?", array($username, $password));
     return $user;
+  }
+
+  public function createOrder($totalCost, $userId)
+  {
+    return $this->db->insert(
+      "INSERT INTO orders (total, customers_id) VALUES (:total, :customersid)",
+      array(
+        ':total' => $totalCost,
+        ':customersid' => $userId
+      )
+    );
+  }
+
+  public function productsToOrder($queryString)
+  {
+    $this->db->insert("INSERT INTO orders_products (products_id, order_id) VALUES $queryString");
   }
 }
