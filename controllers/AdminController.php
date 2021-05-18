@@ -33,6 +33,9 @@ class AdminController
             case "orders":
                 $this->orders();
                 break;
+            case "orderdetails":
+                $this->orderDetail();
+                break;
             default:
                 $this->admin();
         }
@@ -97,5 +100,13 @@ class AdminController
             $this->model->changeOrderStatus($_POST['id']);
             header("Location: ?page=orders");
         }
+    }
+
+    private function orderDetail()
+    {
+        $this->view->viewAdminHeader();
+        $orderDetails = $this->model->fetchOrderDetails();
+        $this->view->viewOrderDetails($orderDetails);
+        //Gör en query till order_products och hämta alla rader där product_id = $id
     }
 }
