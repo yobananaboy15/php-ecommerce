@@ -34,6 +34,9 @@ class Controller
       case "checkout":
         $this->checkout();
         break;
+      case 'removeitem':
+        $this->removeItem();
+        break;
       default:
         $this->frontPage();
     }
@@ -111,7 +114,7 @@ class Controller
       $newArray = array();
       foreach ($products as $value) {
         $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
-        $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+        $singleProductArray = array("id" => $value['id'], "title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
         array_push($newArray, $singleProductArray);
       }
 
@@ -143,6 +146,12 @@ class Controller
     $this->view->viewFooter();
 
     //Skicka en array med det som ska skrivas ut
+  }
+
+  private function removeItem()
+  {
+    unset($_SESSION['cart'][$_GET['id']]);
+    header('Location: ?page=checkout');
   }
 
   private function getHeader()
