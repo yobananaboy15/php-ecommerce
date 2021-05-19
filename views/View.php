@@ -18,12 +18,37 @@ class View
     include_once("views/include/about.php");
   }
 
-  public function viewFrontPage($products)
+  public function viewFrontPage($user, $newArray, $products)
   {
+    include_once("views/include/sidebar.php");
+    $userMsg = $user!=="" ? "Logged in as $user" : "Not logged in";
+    $html = <<<EOT
+            <h3 class="my-4">$userMsg</h3>
+            <div class="list-group">
+            <h4>Cart:</h4>
+            
+        EOT;
+    
+    foreach($newArray as $product){
+      $html .= <<<EOT
+      <p class="list-group-item">$product[title]<span class="float-right">$product[price]</span></p>
+      EOT;
+    }
+    $html.= "</div></div>";
+    echo $html;
+    /* 
+      <div class="list-group">
+        <a class="list-group-item" href="#!">Category 1</a>
+        <a class="list-group-item" href="#!">Category 2</a>
+        <a class="list-group-item" href="#!">Category 3</a>
+      </div>
+    </div> */
+
+
     include_once("views/include/frontPage.php");
 
 
-    $card = " <div class='row'>";
+    $card = "<div class='row'>";
     foreach ($products as $product) {
       $card .= "
       <div class='col-lg-4 col-md-6 mb-4'>
