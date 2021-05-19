@@ -1,14 +1,5 @@
 <!-- Page Content-->
-<div class="container">
-  <div class="row">
-    <div class="col-lg-3">
-      <h1 class="my-4">Shop Name</h1>
-      <div class="list-group">
-        <a class="list-group-item" href="#!">Category 1</a>
-        <a class="list-group-item" href="#!">Category 2</a>
-        <a class="list-group-item" href="#!">Category 3</a>
-      </div>
-    </div>
+
     <div class="col-lg-9">
       <div class="carousel slide my-4" id="carouselExampleIndicators" data-ride="carousel">
         <ol class="carousel-indicators">

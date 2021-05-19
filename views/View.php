@@ -20,6 +20,20 @@ class View
 
   public function viewFrontPage($products)
   {
+    include_once("views/include/sidebar.php");
+
+    $user = $_SESSION['userid'];
+    echo "<h3 class='my-4'>Logged in as: $user</h3>
+          </div>";
+    /* <p>User</p>
+      <div class="list-group">
+        <a class="list-group-item" href="#!">Category 1</a>
+        <a class="list-group-item" href="#!">Category 2</a>
+        <a class="list-group-item" href="#!">Category 3</a>
+      </div>
+    </div> */
+
+
     include_once("views/include/frontPage.php");
 
 
