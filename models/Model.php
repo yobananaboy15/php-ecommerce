@@ -65,6 +65,10 @@ class Model
   {
     $this->db->insert("INSERT INTO orders_products (products_id, order_id) VALUES $queryString");
   }
+  public function insertQuantity($key, $insertedOrderId, $quantity)
+  {
+    $this->db->update("UPDATE orders_products SET quantity=$quantity  WHERE products_id=$key AND order_id=$insertedOrderId");
+  }
 
   public function getUserName($userid)
   {
