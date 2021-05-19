@@ -136,7 +136,7 @@ class AdminView
         foreach ($orders as $order) {
             $html .= <<<EOT
             <tr>
-                <td>$order[id]</td>
+                <td><a href="?page=orderdetails&id=$order[id]">$order[id]</a></td>
                 <td>$order[created_at]</td>
                 <td>$order[name]</td>
                 <td>$order[total]</td>
@@ -173,7 +173,7 @@ class AdminView
         foreach ($orders as $order) {
             $html .= <<<EOT
             <tr>
-                <td>$order[id]</td>
+                <td><a href="?page=orderdetails&id=$order[id]">$order[id]</a></td>
                 <td>$order[created_at]</td>
                 <td>$order[name]</td>
                 <td>$order[total]</td>
@@ -182,6 +182,35 @@ class AdminView
             EOT;
         }
 
+        $html .= "</tbody></table>";
+        echo $html;
+    }
+
+    public function viewOrderDetails($orderDetails)
+    {
+        $orderId = $orderDetails[0]['id'];
+        $total = $orderDetails[0]['total'];
+
+        $html = <<<EOT
+        <h3>OrderID: $orderId</h3>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>                    
+                </tr>
+            </thead>
+            <tbody> 
+        EOT;
+        foreach ($orderDetails as $order) {
+            $html .= <<<EOT
+            <tr>
+                <td>$order[title]</td>
+                <td>$order[quantity]</td>
+            </tr>
+            EOT;
+        }
+        $html .= "<th>Total</th><th>$total</th>";
         $html .= "</tbody></table>";
         echo $html;
     }
