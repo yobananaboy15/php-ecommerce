@@ -75,7 +75,9 @@ class Controller
   private function register()
   {
     $this->getHeader("Register");
+
     $this->view->ViewRegisterPage();
+
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $register = array(
@@ -86,6 +88,7 @@ class Controller
         "password" => htmlspecialchars($_POST['password'])
       );
       $this->model->registerUser($register);
+      header('Location: ?page=login');
     }
     $this->getFooter();
   }
@@ -178,6 +181,7 @@ class Controller
     }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       session_destroy();
+      header('Location: ?');
     }
 
     $this->getHeader("Välkommen");
