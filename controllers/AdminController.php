@@ -34,7 +34,7 @@ class AdminController
                 $this->orders();
                 break;
             case "orderdetails":
-                $this->orderDetail();
+                $this->orderDetails();
                 break;
             default:
                 $this->admin();
@@ -102,11 +102,10 @@ class AdminController
         }
     }
 
-    private function orderDetail()
+    private function orderDetails()
     {
         $this->view->viewAdminHeader();
-        $orderDetails = $this->model->fetchOrderDetails();
+        $orderDetails = $this->model->fetchOrderDetails($_GET['id']);
         $this->view->viewOrderDetails($orderDetails);
-        //Gör en query till order_products och hämta alla rader där product_id = $id
     }
 }
