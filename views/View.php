@@ -18,11 +18,9 @@ class View
     include_once("views/include/about.php");
   }
 
-  public function viewFrontPage($products)
+  public function viewFrontPage($user, $products)
   {
     include_once("views/include/sidebar.php");
-
-    $user = $_SESSION['userid'];
     echo "<h3 class='my-4'>Logged in as: $user</h3>
           </div>";
     /* <p>User</p>

@@ -158,9 +158,11 @@ class Controller
 
   private function frontPage()
   {
+    $user = $this->model->getUserName($_SESSION['userid'])[0];
+    
     //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
     if (isset($_GET['id'])) {
-
+      
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
     }
 
@@ -168,7 +170,7 @@ class Controller
 
     $products = $this->model->fetchAllProducts();
 
-    $this->view->viewFrontPage($products);
+    $this->view->viewFrontPage($user['name'], $products);
     $this->getFooter();
   }
 }
