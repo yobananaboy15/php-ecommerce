@@ -95,58 +95,50 @@ class Controller
 
     //För varje produkt så multiplicerar vi värde av elementet med priset för motsvarande index.
 
-    $totalCost = 0;
+    //GET-request -> Vi vill hämta priset 
 
-
-    //Räkna ut totalsumma
 
     $this->view->viewHeader();
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-      //Om det finns något i kundvagnen, gör en sak, annars gör en annan.
-      if(!empty($_SESSION['cart'])){
+
+    //Om det finns något i kundvagnen, gör en sak, annars gör en annan.
+    if (!empty($_SESSION['cart'])) {
+
+      $totalCost = 0;
+
       $idStr = implode(",", array_keys($_SESSION['cart']));
       $products = $this->model->fetchCustomersProducts($idStr);
-        //Det här sker oavsett
-        $newArray = array();
-        foreach ($products as $value) {
-          $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
-          $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
-          array_push($newArray, $singleProductArray);
-        }
+      //Det här sker oavsett
+      $newArray = array();
+      foreach ($products as $value) {
+        $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
+        $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+        array_push($newArray, $singleProductArray);
+      }
+
+      if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $this->view->viewCheckoutPage($newArray, $totalCost);
       }
-      else{
-        echo "<h2>Your cart is empty</h2><br>";
-        echo "<i class='fas fa-cart-plus'></i>";
+
+      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+        if (isset($_SESSION['userid'])) {
+          $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
+          $queryString = '';
+
+          foreach (array_keys($_SESSION['cart']) as $value) {
+            $queryString .= "($value, $insertedOrderId),";
+          }
+
+          $queryString = substr($queryString, 0, -1);
+          $this->model->productsToOrder($queryString);
+        } else {
+          echo '<h2>Please log in to buy stuff!</h2>';
+        }
       }
-    
+    } else {
+      echo "<h2>Your cart is empty</h2><br>";
+      echo "<i class='fas fa-cart-plus'></i>";
     }
-
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-      $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
-      //Fixa sträng med produktID.
-      $queryString = '';
-
-      foreach (array_keys($_SESSION['cart']) as $value) {
-        $queryString .= "($value, $insertedOrderId),";
-      }
-
-      $queryString = substr($queryString, 0, -1);
-
-      $this->model->productsToOrder($queryString);
-
-
-      // $this->model->
-      //Vi vill skapa en order i orders:
-      //id, totalt pris (finns i $totalCost), customer id(finns i session).
-
-      //Skapa rader i orders_products
-      //En rad för varje produkt
-
-      // $this->view->confirmOrder();
-    }
-
 
     $this->view->viewFooter();
 
