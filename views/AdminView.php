@@ -212,6 +212,10 @@ class AdminView
         }
         $html .= "<th>Total</th><th>$total</th>";
         $html .= "</tbody></table>";
+        $html .= $orderDetails[0]['sent'] ? "" : "<form action='?page=orders' method='POST'>
+                        <input type='hidden' name='id' value=$orderId />
+                        <button type='submit' class='btn btn-primary'>Send order</button>
+                    </form>";
         echo $html;
     }
 }

@@ -57,7 +57,7 @@ class AdminModel
     public function fetchOrderDetails($orderId)
     {
         //Joina orders, orders_products och products för att få fram namnen på alla produkter i en viss order.
-        $orders = $this->db->select("SELECT o.id, o.total, p.title, op.quantity from orders as o JOIN orders_products as op on o.id = op.order_id JOIN products as p on p.id = op.products_id WHERE o.id = $orderId");
+        $orders = $this->db->select("SELECT o.id, o.total, p.title, op.quantity, o.sent from orders as o JOIN orders_products as op on o.id = op.order_id JOIN products as p on p.id = op.products_id WHERE o.id = $orderId");
         return $orders;
     }
 }
