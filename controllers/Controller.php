@@ -34,9 +34,6 @@ class Controller
       case "checkout":
         $this->checkout();
         break;
-      case "orderconfirm":
-        $this->orderConfirm();
-        break;
       default:
         $this->frontPage();
     }
@@ -95,24 +92,26 @@ class Controller
 
   private function checkout()
   {
-    $idStr = implode(",", array_keys($_SESSION['cart']));
 
-    $products = $this->model->fetchCustomersProducts($idStr);
     //För varje produkt så multiplicerar vi värde av elementet med priset för motsvarande index.
 
     $totalCost = 0;
-    $newArray = array();
 
-    foreach ($products as $value) {
-      $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
-      $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
-      array_push($newArray, $singleProductArray);
-    }
 
     //Räkna ut totalsumma
 
     $this->view->viewHeader();
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+      //Om det finns något i kundvagnen, gör en sak, annars gör en annan.
+      $idStr = implode(",", array_keys($_SESSION['cart']));
+      $products = $this->model->fetchCustomersProducts($idStr);
+      //Det här sker oavsett
+      $newArray = array();
+      foreach ($products as $value) {
+        $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
+        $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+        array_push($newArray, $singleProductArray);
+      }
       $this->view->viewCheckoutPage($newArray, $totalCost);
     }
 
@@ -145,11 +144,6 @@ class Controller
     $this->view->viewFooter();
 
     //Skicka en array med det som ska skrivas ut
-  }
-
-  private function orderConfirm()
-  {
-    //Ta get-parametern
   }
 
   private function getHeader()
