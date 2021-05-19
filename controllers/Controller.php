@@ -103,16 +103,23 @@ class Controller
     $this->view->viewHeader();
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
       //Om det finns något i kundvagnen, gör en sak, annars gör en annan.
+      if(!empty($_SESSION['cart'])){
       $idStr = implode(",", array_keys($_SESSION['cart']));
       $products = $this->model->fetchCustomersProducts($idStr);
-      //Det här sker oavsett
-      $newArray = array();
-      foreach ($products as $value) {
-        $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
-        $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
-        array_push($newArray, $singleProductArray);
+        //Det här sker oavsett
+        $newArray = array();
+        foreach ($products as $value) {
+          $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
+          $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+          array_push($newArray, $singleProductArray);
+        }
+        $this->view->viewCheckoutPage($newArray, $totalCost);
       }
-      $this->view->viewCheckoutPage($newArray, $totalCost);
+      else{
+        echo "<h2>Your cart is empty</h2><br>";
+        echo "<i class='fas fa-cart-plus'></i>";
+      }
+    
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
