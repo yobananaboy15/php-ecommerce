@@ -146,6 +146,7 @@ class Controller
             // $queryString.="($value,$insertedOrderId,$key),";
             $this->model->insertQuantity($key, $insertedOrderId,$value);
           }
+          echo '<h2>Your order has been placed successfully!!</h2>';
         } else {
           echo '<h2>Please log in to buy stuff!</h2>';
         }
