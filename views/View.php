@@ -26,7 +26,7 @@ class View
     $card = " <div class='row'>";
     foreach ($products as $product) {
       $card .= "
-      <div class='col-lg-4 col-md-6 mb-4'>s
+      <div class='col-lg-4 col-md-6 mb-4'>
       <div class='card h-100'>
         <a href='#!'><img class='p-3 img-fluid' src='$product[image]' alt='...' / style='height : 300px'></a>
         <div class='card-body'>
