@@ -29,6 +29,11 @@
           </li>
           <li class="nav-item login"><a class="nav-link" href="?page=login">Login</a></li>
           <li class="nav-item"><a class="nav-link" href="?page=checkout">Checkout</a></li>
+          <li class="nav-item">
+            <form action="?" method="POST">
+              <input type="submit" value="logout"></input>
+            </form>
+          </li>
         </ul>
       </div>
     </div>

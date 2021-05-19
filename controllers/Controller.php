@@ -158,10 +158,13 @@ class Controller
 
   private function frontPage()
   {
-    //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
+    //Om det finns en GET-variabel som heter id -> Lägg till i session.
     if (isset($_GET['id'])) {
 
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
+    }
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      session_destroy();
     }
 
     $this->getHeader("Välkommen");
