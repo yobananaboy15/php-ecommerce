@@ -169,6 +169,11 @@ class Controller
 
   private function frontPage()
   {
+    //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
+    if (isset($_GET['id'])) {
+      $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
+    }
+    
     $user = isset($_SESSION['userid']) ? $this->model->getUserName($_SESSION['userid'])[0]['name'] : "";
     $newArray = array();
 
@@ -179,15 +184,11 @@ class Controller
       //Det här sker oavsett
       foreach ($products as $value) {
         $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
-        $singleProductArray = array("title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
+        $singleProductArray = array("title" => $value['title'], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
         array_push($newArray, $singleProductArray);
       }
     }
 
-    //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
-    if (isset($_GET['id'])) {
-      $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
-    }
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       session_destroy();
       header('Location: ?');
