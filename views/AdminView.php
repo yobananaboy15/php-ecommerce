@@ -62,23 +62,23 @@ class AdminView
         <form action="?page=editproduct" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" name="title" value="$product[title]">
+                <input type="text" class="form-control" name="title" value="$product[title]" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Description</label>
-                <input type="text" class="form-control" name="description" value="$product[description]">
+                <input type="text" class="form-control" name="description" value="$product[description] " required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Category</label>
-                <input type="text" class="form-control" name="category" value="$product[category]">
+                <input type="text" class="form-control" name="category" value="$product[category] "required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Price</label>
-                <input type="text" class="form-control" name="price" value="$product[price]">
+                <input type="text" class="form-control" name="price" value="$product[price]" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Image</label>
-                <input type="text" class="form-control" name="image" value="$product[image]">
+                <input type="text" class="form-control" name="image" value="$product[image]" required>
             </div>
             <input type="hidden" name="id" value="$product[id]">
             <button type="submit" class="btn btn-primary">Submit changes</button>
@@ -93,23 +93,23 @@ class AdminView
         <form action="?page=addproduct" method="POST">
             <div class="form-group">
                 <label for="exampleInputEmail1">Title</label>
-                <input type="text" class="form-control" name="title">
+                <input type="text" class="form-control" name="title" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Description</label>
-                <input type="text" class="form-control" name="description">
+                <input type="text" class="form-control" name="description" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Category</label>
-                <input type="text" class="form-control" name="category">
+                <input type="text" class="form-control" name="category" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Price</label>
-                <input type="text" class="form-control" name="price">
+                <input type="text" class="form-control" name="price" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Image</label>
-                <input type="text" class="form-control" name="image">
+                <input type="text" class="form-control" name="image" required>
             </div>
             <button type="submit" class="btn btn-primary">Add product</button>
         </form>
