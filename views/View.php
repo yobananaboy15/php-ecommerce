@@ -21,20 +21,20 @@ class View
   public function viewFrontPage($user, $newArray, $products)
   {
     include_once("views/include/sidebar.php");
-    $userMsg = $user!=="" ? "Logged in as $user" : "Not logged in";
+    $userMsg = $user !== "" ? "Logged in as $user" : "Not logged in";
     $html = <<<EOT
             <h3 class="my-4">$userMsg</h3>
             <div class="list-group">
             <h4>Cart:</h4>
             
         EOT;
-    
-    foreach($newArray as $product){
+
+    foreach ($newArray as $product) {
       $html .= <<<EOT
       <p class="list-group-item">$product[title]<span class="float-right">$product[price]</span></p>
       EOT;
     }
-    $html.= "</div></div>";
+    $html .= "</div></div>";
     echo $html;
     /* 
       <div class="list-group">
@@ -84,6 +84,7 @@ class View
                 <th scope="col">Product</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Price</th>
+                <th></th>
             </tr>
         </thead>
         <tbody> 
@@ -92,7 +93,7 @@ class View
     foreach ($products as $product) {
       $html .= <<<EOT
       <tr>
-          <td>$product[title]</td>
+          <td>$product[title] <a class='btn btn-danger' href='?page=removeitem&id=$product[id]'>X</a></td>
           <td>$product[quantity]</td>
           <td>$product[price]</td>
       </tr>
