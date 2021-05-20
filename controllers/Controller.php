@@ -130,13 +130,13 @@ class Controller
         if (isset($_SESSION['userid'])) {
           $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
           $queryString = '';
-
-          foreach (array_keys($_SESSION['cart']) as $value) {
-            $queryString .= "($value, $insertedOrderId),";
+          foreach ($_SESSION['cart'] as  $key=>$value) {
+            $queryString.="($key,$insertedOrderId,$value),";
           }
-
           $queryString = substr($queryString, 0, -1);
           $this->model->productsToOrder($queryString);
+
+          echo '<h2>Your order has been placed successfully!!</h2>';
         } else {
           echo '<h2>Please log in to buy stuff!</h2>';
         }
