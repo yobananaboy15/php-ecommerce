@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Klass för att hantera adminsidan, vi hanterar produkter och ordrar. 
+ */
+
 class AdminController
 {
 
@@ -12,7 +16,9 @@ class AdminController
     $this->view = $view;
     $this->router();
   }
-
+  /**
+   * Här hanterar vi våra routes för adminsidan.
+   */
   private function router()
   {
     $page = $_GET['page'] ?? "";
@@ -40,24 +46,32 @@ class AdminController
         $this->admin();
     }
   }
-
+  /**
+   * Funktion för att rendera frontPage.
+   */
   private function admin()
   {
     $this->view->viewAdminHeader();
     $this->view->viewFrontPage();
+
+    //Funktion för att logga ut.
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       session_destroy();
       header('Location: ?');
     }
   }
-
+  /**
+   * Den här sidan listar alla produkter
+   */
   private function products()
   {
     $this->view->viewAdminHeader();
     $products = $this->model->fetchAllProducts();
     $this->view->showProducts($products);
   }
-
+  /**
+   * Funktion för att lägga till en ny produkt. 
+   */
   private function addProduct()
   {
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -69,7 +83,9 @@ class AdminController
       header("Location: ?page=products");
     }
   }
-
+  /**
+   * Funktion för att uppdatera en produkt. 
+   */
   private function editProduct()
   {
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -83,14 +99,18 @@ class AdminController
       header("Location: ?page=products");
     }
   }
-
+  /**
+   * Funktion för att ta bort en produkt. 
+   */
   private function deleteProduct()
   {
     $this->model->deleteProduct($_GET['id']);
     header("Location: ?page=products");
   }
 
-
+  /**
+   * Funktion för att rendera ordersidan, och lista ordrar.
+   */
   private function orders()
   {
     if ($_SERVER['REQUEST_METHOD'] == "GET") {
@@ -105,7 +125,9 @@ class AdminController
       header("Location: ?page=orders");
     }
   }
-
+  /**
+   * Funktion för att visa detaljer om en order. 
+   */
   private function orderDetails()
   {
     $this->view->viewAdminHeader();

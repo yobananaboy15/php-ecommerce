@@ -10,11 +10,6 @@ class Model
     $this->db = $database;
   }
 
-  /* public function fetchAllMovies(){
-        $movies = $this->db->select("SELECT * FROM films");
-        return $movies;
-    } */
-
   public function fetchAllProducts()
   {
     $products = $this->db->select("SELECT * FROM products");
@@ -31,7 +26,6 @@ class Model
   public function registerUser($register)
   {
 
-    // Förbered en SQL-sats and binda parametrar
     $this->db->insert(
       "INSERT INTO customers (name, phone, adress, email, password) VALUES (:name, :phone, :adress, :email, :password)",
       array(

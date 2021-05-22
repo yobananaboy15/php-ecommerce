@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Klass för att hantera all logik för hemsidan. 
+ */
+
 class Controller
 {
 
@@ -17,14 +21,15 @@ class Controller
     $this->router();
   }
 
+  /**
+   * Här hanterar vi våra routes för hemsidan.
+   */
+
   private function router()
   {
     $page = $_GET['page'] ?? "";
 
     switch ($page) {
-      case "about":
-        $this->about();
-        break;
       case "login":
         $this->login();
         break;
@@ -42,12 +47,9 @@ class Controller
     }
   }
 
-  private function about()
-  {
-    $this->getHeader("Om Oss");
-    $this->view->viewAboutPage();
-    $this->getFooter();
-  }
+  /** 
+   *  Funktion för att rendera login-sidan och kontrollera om användaren finns i databasen, samt om användaren är admin eller inte.
+   */
   private function login()
   {
 
@@ -74,7 +76,9 @@ class Controller
       }
     }
   }
-
+  /** 
+   * Funktion för att rendera registreringssidan och skapa användare i databasen.
+   */
   private function register()
   {
     $this->getHeader("Register");
@@ -96,17 +100,14 @@ class Controller
     $this->getFooter();
   }
 
+  /** 
+   * Funktion för att hantera ordrar och skicka ordrar till databasen.
+   */
+
   private function checkout()
   {
-
-    //För varje produkt så multiplicerar vi värde av elementet med priset för motsvarande index.
-
-    //GET-request -> Vi vill hämta priset 
-
-
     $this->view->viewHeader();
 
-    //Om det finns något i kundvagnen, gör en sak, annars gör en annan.
     if (!empty($_SESSION['cart'])) {
 
       $totalCost = 0;
@@ -148,10 +149,11 @@ class Controller
     }
 
     $this->view->viewFooter();
-
-    //Skicka en array med det som ska skrivas ut
   }
 
+  /**
+   * Funktion för att ta bort produkt ur kundvagn.
+   */
   private function removeItem()
   {
     unset($_SESSION['cart'][$_GET['id']]);
@@ -168,9 +170,13 @@ class Controller
     $this->view->viewFooter();
   }
 
+  /** 
+   * Funktion för att rendera frontpage
+   */
+
   private function frontPage()
   {
-    //Om det finns en GET-variabel som heter id -> Lägg till i ssession.
+    //Här lägger vi till produkter i vår kundkorg.
     if (isset($_GET['id'])) {
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
     }
@@ -178,18 +184,19 @@ class Controller
     $user = isset($_SESSION['userid']) ? $this->model->getUserName($_SESSION['userid'])[0]['name'] : "";
     $newArray = array();
 
+    // Här hämtar vi alla produkter i kundkorgen.
     if ($_SESSION['cart']) {
       $totalCost = 0;
       $idStr = implode(",", array_keys($_SESSION['cart']));
       $products = $this->model->fetchCustomersProducts($idStr);
-      //Det här sker oavsett
+
       foreach ($products as $value) {
         $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
         $singleProductArray = array("title" => $value['title'], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
         array_push($newArray, $singleProductArray);
       }
     }
-
+    // Här loggar man ut
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       session_destroy();
       header('Location: ?');

@@ -29,5 +29,5 @@ if (isset(($_SESSION['isAdmin'])) && $_SESSION['isAdmin']) {
   $view       = new View();
   $controller = new Controller($model, $view);
 
-  $controller->main(); //Kör den här i konstruktorn?
+  $controller->main();
 }

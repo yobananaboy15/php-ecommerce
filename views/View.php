@@ -36,13 +36,6 @@ class View
     }
     $html .= "</div></div>";
     echo $html;
-    /* 
-      <div class="list-group">
-        <a class="list-group-item" href="#!">Category 1</a>
-        <a class="list-group-item" href="#!">Category 2</a>
-        <a class="list-group-item" href="#!">Category 3</a>
-      </div>
-    </div> */
 
 
     include_once("views/include/frontPage.php");
@@ -71,7 +64,7 @@ class View
       </div>
       </div>";
     echo $card;
-    var_dump($_SESSION);
+    //var_dump($_SESSION);
   }
 
   public function viewCheckoutPage($products, $totalCost)
@@ -104,10 +97,6 @@ class View
     $html .= "<a class='btn btn-primary' href='?page'>Go back</a>";
     $html .= "<form action='?page=checkout' method='POST'><button type='submit'>Send order</button></form>";
 
-    //En länk för att skicka beställning. POST-request
-
-    //En länk för att gå tillbaka till home
-    //Totalsumman 
     echo $html;
   }
 
@@ -120,7 +109,5 @@ class View
   public function viewRegisterPage()
   {
     include_once("views/include/register.php");
-    // Hämta data från post-arrayen
-
   }
 }
