@@ -130,13 +130,14 @@ class Controller
         if (isset($_SESSION['userid'])) {
           $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
           $queryString = '';
-          foreach ($_SESSION['cart'] as  $key=>$value) {
-            $queryString.="($key,$insertedOrderId,$value),";
+          foreach ($_SESSION['cart'] as  $key => $value) {
+            $queryString .= "($key,$insertedOrderId,$value),";
           }
           $queryString = substr($queryString, 0, -1);
           $this->model->productsToOrder($queryString);
 
           echo '<h2>Your order has been placed successfully!!</h2>';
+          $_SESSION['cart'] = array();
         } else {
           echo '<h2>Please log in to buy stuff!</h2>';
         }
@@ -173,7 +174,7 @@ class Controller
     if (isset($_GET['id'])) {
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
     }
-    
+
     $user = isset($_SESSION['userid']) ? $this->model->getUserName($_SESSION['userid'])[0]['name'] : "";
     $newArray = array();
 
