@@ -53,18 +53,17 @@ class Controller
   private function login()
   {
 
+    //Visar login-sidan
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       $this->getHeader("Logga in");
       $this->view->ViewLoginPage();
       $this->getFooter();
     }
 
+    //Hanterar login
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $user = $this->model->getUser($_POST['username'], $_POST['password'])[0];
-      // echo "<pre>";
-      // var_dump($user);
-      // echo "</pre>";
 
       if (count($user)) {
         $_SESSION['isAdmin'] = $user['isadmin'];
@@ -76,6 +75,7 @@ class Controller
       }
     }
   }
+
   /** 
    * Funktion för att rendera registreringssidan och skapa användare i databasen.
    */
@@ -103,7 +103,6 @@ class Controller
   /** 
    * Funktion för att hantera ordrar och skicka ordrar till databasen.
    */
-
   private function checkout()
   {
     $this->view->viewHeader();
@@ -112,22 +111,27 @@ class Controller
 
       $totalCost = 0;
 
-      $idStr = implode(",", array_keys($_SESSION['cart']));
+      //Hämtar produkterna i kundvagnen från databasen 
+      $idStr = implode(",", array_keys($_SESSION['cart'])); 
       $products = $this->model->fetchCustomersProducts($idStr);
-      //Det här sker oavsett
-      $newArray = array();
+      
+      //Lagrar produkternas titel, antal och totalpris i $cart
+      $cart = array();
       foreach ($products as $value) {
         $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
         $singleProductArray = array("id" => $value['id'], "title" => $value['title'], "quantity" => $_SESSION['cart'][$value['id']], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
-        array_push($newArray, $singleProductArray);
+        array_push($cart, $singleProductArray);
       }
 
+      //Visar kundvagnen för kunden
       if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        $this->view->viewCheckoutPage($newArray, $totalCost);
+        $this->view->viewCheckoutPage($cart, $totalCost);
       }
 
+      //Hanterar ordern
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+        //Om användaren är inloggad lagras ordern i databasen
         if (isset($_SESSION['userid'])) {
           $insertedOrderId = $this->model->createOrder($totalCost, $_SESSION['userid']);
           $queryString = '';
@@ -173,18 +177,18 @@ class Controller
   /** 
    * Funktion för att rendera frontpage
    */
-
   private function frontPage()
   {
-    //Här lägger vi till produkter i vår kundkorg.
+    //Hämtar användarnamn
+    $user = isset($_SESSION['userid']) ? $this->model->getUserName($_SESSION['userid'])[0]['name'] : "";
+    
+    //Lagrar produkt-id i sessionvariabel
     if (isset($_GET['id'])) {
       $_SESSION['cart'][$_GET['id']] = array_key_exists($_GET['id'], $_SESSION['cart']) ? $_SESSION['cart'][$_GET['id']] + 1 : 1;
     }
 
-    $user = isset($_SESSION['userid']) ? $this->model->getUserName($_SESSION['userid'])[0]['name'] : "";
-    $newArray = array();
-
-    // Här hämtar vi alla produkter i kundkorgen.
+    // Här hämtar vi alla produkter i kundkorgen från databasen
+    $cart = array();
     if ($_SESSION['cart']) {
       $totalCost = 0;
       $idStr = implode(",", array_keys($_SESSION['cart']));
@@ -193,7 +197,7 @@ class Controller
       foreach ($products as $value) {
         $totalCost += $value['price'] * $_SESSION['cart'][$value['id']];
         $singleProductArray = array("title" => $value['title'], "price" => $value['price'] * $_SESSION['cart'][$value['id']]);
-        array_push($newArray, $singleProductArray);
+        array_push($cart, $singleProductArray);
       }
     }
     // Här loggar man ut
@@ -206,7 +210,7 @@ class Controller
 
     $products = $this->model->fetchAllProducts();
 
-    $this->view->viewFrontPage($user, $newArray, $products);
+    $this->view->viewFrontPage($user, $cart, $products);
     $this->getFooter();
   }
 }

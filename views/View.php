@@ -13,20 +13,20 @@ class View
     include_once("views/include/footer.php");
   }
 
-  public function viewAboutPage()
-  {
-    include_once("views/include/about.php");
-  }
-
+  /**
+   * Front page
+   */
   public function viewFrontPage($user, $newArray, $products)
   {
+    
+    ////Visar sidebar med inloggad användare och kundkorg
+    
     include_once("views/include/sidebar.php");
     $userMsg = $user !== "" ? "Logged in as $user" : "Not logged in";
     $html = <<<EOT
             <h3 class="my-4">$userMsg</h3>
             <div class="list-group">
             <h4>Cart:</h4>
-            
         EOT;
 
     foreach ($newArray as $product) {
@@ -40,7 +40,9 @@ class View
 
     include_once("views/include/frontPage.php");
 
-
+    
+    ////Visar alla produkter
+    
     $card = "<div class='row'>";
     foreach ($products as $product) {
       $card .= "
@@ -67,6 +69,9 @@ class View
     //var_dump($_SESSION);
   }
 
+  /**
+   * Checkout
+   */
   public function viewCheckoutPage($products, $totalCost)
   {
     $html = <<<EOT
@@ -100,12 +105,17 @@ class View
     echo $html;
   }
 
-
+  /**
+   * Login
+   */
   public function viewLoginPage()
   {
     include_once("views/include/login.php");
   }
 
+  /**
+   * Register
+   */
   public function viewRegisterPage()
   {
     include_once("views/include/register.php");

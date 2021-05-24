@@ -8,12 +8,11 @@ require_once("views/AdminView.php");
 require_once('controllers/AdminController.php');
 require_once('models/AdminModel.php');
 
-/********************
- * OBS!! Ändra databas
- ********************/
-
 session_start();
 
+/**
+ * Kollar om inloggad användare är admin
+ */
 if (isset(($_SESSION['isAdmin'])) && $_SESSION['isAdmin']) {
   $database   = new Database("fakestore", "root", "root");
   $adminModel = new AdminModel($database);
@@ -24,7 +23,6 @@ if (isset(($_SESSION['isAdmin'])) && $_SESSION['isAdmin']) {
     $_SESSION['cart'] = array();
   }
   $database   = new Database("fakestore", "root", "root");
-
   $model      = new Model($database);
   $view       = new View();
   $controller = new Controller($model, $view);

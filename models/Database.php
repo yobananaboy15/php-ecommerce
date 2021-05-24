@@ -12,7 +12,6 @@
     
     public function __construct($database, $username="root", $password="root", $servername="localhost")
     {
-        // Data Source Name
         $dsn = "mysql:host=$servername;dbname=$database;charset=UTF8";
         
         try {
