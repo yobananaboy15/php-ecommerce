@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 20, 2021 at 11:18 AM
+-- Generation Time: May 25, 2021 at 11:13 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -34,7 +34,7 @@ CREATE TABLE `customers` (
   `email` varchar(45) NOT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
-  `isadmin` tinyint(1) NOT NULL
+  `isadmin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -43,7 +43,8 @@ CREATE TABLE `customers` (
 
 INSERT INTO `customers` (`id`, `name`, `adress`, `email`, `phone`, `password`, `isadmin`) VALUES
 (5, 'Kalle', '', '', '', 'qwerty', 1),
-(6, 'Dee', '', '', '', '123456', 0);
+(6, 'Dee', '', '', '', '123456', 0),
+(9, 'Pelle', '', '', '', '123456789', 0);
 
 -- --------------------------------------------------------
 
@@ -152,7 +153,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `orders`
